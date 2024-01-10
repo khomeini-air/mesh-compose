@@ -49,6 +49,7 @@ services:
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
+      - "JAVA_OPTS=-server -Xms512m -Xmx512m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
     ports:
       - '127.0.0.1:8082:8080'
     command: [
@@ -60,6 +61,13 @@ services:
       ]
     volumes:
       - ./keycloak/realm.json:/opt/jboss/keycloak/realm.json
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
 
 volumes:
   esdata:
