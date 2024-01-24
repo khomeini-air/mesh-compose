@@ -11,6 +11,8 @@ services:
       - MESH_MONITORING_HTTP_HOST=0.0.0.0
       - MESH_ELASTICSEARCH_COMPLIANCE_MODE=ES_7
       - MESH_INITIAL_ADMIN_PASSWORD=admin
+      - MESH_PLUGIN_DIR=/plugins
+      - MESH_DEBUGINFO_LOG_ENABLED=true
     stop_grace_period: 5m
     ports:
       - '8080:8080'
@@ -19,6 +21,7 @@ services:
       - mesh-data:/graphdb
       - mesh-uploads:/uploads
       - mesh-keystore:/keystore
+      - mesh-plugins:/plugins
     ulimits:
       nofile:
         soft: 20000
@@ -45,11 +48,11 @@ services:
         hard: -1
 
   keycloak:
-    image: jboss/keycloak:3.4.3.Final
+    image: jboss/keycloak:14.0.0
+    container_name: mesh-keycloak
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
-      - "JAVA_OPTS=-server -Xms512m -Xmx512m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
     ports:
       - '127.0.0.1:8082:8080'
     command: [
@@ -77,4 +80,6 @@ volumes:
   mesh-data:
     driver: local
   mesh-uploads:
+    driver: local
+  mesh-plugins:
     driver: local

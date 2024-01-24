@@ -16,3 +16,16 @@ security:
       confidentialPort: 0
     mapperScriptPath: "/config/mapperscript.js"
     mapperScriptDevMode: true
+debugInfo:
+  logFolder: "debuginfo"
+  logFileSize: "5MB"
+  logEnabled: true
+  logPattern: "%d{HH:mm:ss.SSS} [%meshName] %-5level [%thread] [%file:%line] - %msg%n"
+vertxOptions:
+  workerPoolSize: 20
+  eventPoolSize: 64
+  orderedBlockingHandlers: true
+  eventBus:
+    checkInterval: 30000
+    warnThreshold: 60000
+    errorThreshold: 120000
